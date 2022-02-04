@@ -1,16 +1,16 @@
 <template>
-  <div class="home">
+  <v-container>
     <h1>Defundraiser</h1>
-  </div>
+  </v-container>
 </template>
 
 <script>
-// @ is an alias to /src
 
-export default {
-  name: 'Home',
-  components: {
-    
+  export default {
+    name: 'Home',
+
+    components: {
+      
+    },
   }
-}
 </script>
