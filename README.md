@@ -1,4 +1,4 @@
-# Defundraiser
+# Social Fundraiser
 
 ## Project setup
 ```
