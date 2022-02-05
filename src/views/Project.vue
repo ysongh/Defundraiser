@@ -1,12 +1,22 @@
 <template>
   <v-container>
     <h1>Project</h1>
-    <v-btn
-      class="mb-4"
-      @click="addComment()"
-    >
+
+    <v-textarea
+      solo
+      class="mb-0"
+      rows="4"
+      label="Add comment"
+      v-model="comment"
+    ></v-textarea>
+    <v-btn class="btn-add" @click="addComment()">
       Add Comment
     </v-btn>
+
+    <div v-bind:key="comment.id" v-for="comment of comments">
+      <Comment :comment="comment"/>
+    </div>
+   
   </v-container>
 </template>
 
@@ -14,23 +24,32 @@
   import firebase from 'firebase';
 
   import fb from '../config/firebase';
-
+  import Comment from '../components/Comment.vue'
+;
   export default {
     name: 'Project',
+    data: () => ({
+      comments: [],
+      comment: ""
+    }),
+    components: {
+      Comment
+    },
     methods: {
       addComment() {
         fb.firestore()
           .collection("1")
           .add({
-            text: "Test",
+            text: this.comment,
             name: "Guest",
             image: null,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           });
+
+        this.comment = "";
       }
     },
     async created() {
-      console.log("c");
       fb.firestore()
         .collection("1")
         .orderBy('timestamp', 'desc')
@@ -42,7 +61,14 @@
             data: doc.data()
           }));
           console.log(commentData);
+          this.comments = commentData;
         });
     }
   }
 </script>
+<style lang="scss" scoped>
+.btn-add {
+  margin-top: -1.5rem !important;
+  margin-bottom: 2rem;
+}
+</style>
