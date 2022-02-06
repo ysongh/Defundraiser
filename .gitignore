@@ -4,6 +4,7 @@ node_modules
 package-lock.json
 src/abis
 .env
+apikeys.js
 
 # local env files
 .env.local

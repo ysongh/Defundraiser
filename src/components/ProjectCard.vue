@@ -14,7 +14,7 @@
       >
         View
       </v-btn>  
-      <p class="mt-3">{{ project.donationAmount}} MATIC Donated</p>
+      <p class="mt-3">{{ project.donationAmount / 10 ** 18}} MATIC Donated</p>
     </v-card-actions>
   </v-card>
 </template>

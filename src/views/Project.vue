@@ -12,10 +12,11 @@
       <v-card-actions class="d-flex justify-space-between align-center">
         <v-btn
           color="orange"
+          @click="donateFund()"
         >
           Donate
         </v-btn>  
-        <p class="mt-3">{{ project.donationAmount}} MATIC Donated</p>
+        <p class="mt-3">{{ project.donationAmount / 10 ** 18}} MATIC Donated</p>
       </v-card-actions>
     </v-card>
 
@@ -34,9 +35,51 @@
       </v-tabs>
 
       <v-tabs-items v-model="tab">
+        <v-tab-item key="Donations">
+          <h1>Donations</h1>
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Address
+                  </th>
+                  <th class="text-left">
+                    Amount
+                  </th>
+                  <th class="text-left">
+                    Claim Date
+                  </th>
+                  <th class="text-left">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr 
+                  v-for="nft in donations"
+                  :key="nft.id"
+                >
+                  <td>{{ nft.donator }}</td>
+                  <td>{{ nft.amount / 10 ** 18 }} MATIC</td>
+                  <td>{{ nft.claimDate }}</td>
+                  <td>
+                    <v-btn
+                      color="orange"
+                    >
+                      Claim
+                    </v-btn>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-tab-item>
+
         <v-tab-item key="Announcements">
           <h1>Announcements</h1>
         </v-tab-item>
+
         <v-tab-item key="Comments">
           <h1>Comments</h1>
           <v-textarea
@@ -79,10 +122,12 @@
     },
     data: () => ({
       project: {},
+      donations: [],
       comments: [],
       comment: "",
       tab: null,
       items: [
+        { tab: 'Donations'},
         { tab: 'Announcements'},
         { tab: 'Comments'},
         { tab: 'Mint' }
@@ -91,8 +136,13 @@
     components: {
       Comment
     },
-    computed: mapGetters(['socialFundraiserBlockchain']),
+    computed: mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
     methods: {
+      async donateFund() {
+        await this.socialFundraiserBlockchain.methods
+          .donateToProject(this.$route.params.id, 1)
+          .send({ from: this.walletAddress, value: (1 * 10 ** 18).toString() });
+      },
       addComment() {
         fb.firestore()
           .collection(this.$route.params.id)
@@ -109,6 +159,10 @@
     async created() {
       const project = await this.socialFundraiserBlockchain.methods.projects(this.$route.params.id).call()
       this.project = project
+
+      const donation = await this.socialFundraiserBlockchain.methods.donationNFTs(this.$route.params.id).call()
+      console.log(donation)
+      this.donations = [donation]
 
       fb.firestore()
         .collection(this.$route.params.id)
