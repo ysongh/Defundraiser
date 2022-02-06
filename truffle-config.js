@@ -1,3 +1,7 @@
+require('dotenv').config();
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const mnemonic = process.env.MNEMONIC.toString().trim();
+
 module.exports = {
 
   networks: {
@@ -5,6 +9,14 @@ module.exports = {
      host: "127.0.0.1",     // Localhost (default: none)
      port: 7545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
+    },
+    // truffle migrate --network mumbai
+    mumbai: {
+      provider: () => new HDWalletProvider(mnemonic, process.env.ALCHEMY_API_KEY),
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
     },
   },
 

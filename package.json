@@ -20,8 +20,10 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "dotenv": "^16.0.0",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
+    "@truffle/hdwallet-provider": "^1.4.3",
     "vue-cli-plugin-vuetify": "~2.4.5",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.0"
