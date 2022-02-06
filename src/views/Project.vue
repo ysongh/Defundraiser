@@ -62,7 +62,7 @@
                 >
                   <td>{{ nft.donator }}</td>
                   <td>{{ nft.amount / 10 ** 18 }} MATIC</td>
-                  <td>{{ nft.claimDate }}</td>
+                  <td>{{ formatDate(nft.claimDate) }}</td>
                   <td>
                     <v-btn
                       color="orange"
@@ -154,6 +154,12 @@
           });
 
         this.comment = "";
+      },
+      formatDate(dateTimeStamp) {
+        const date = new Date(dateTimeStamp * 1000); // x1000 to convert from seconds to milliseconds 
+        let stringDate = date.toUTCString();
+        stringDate = stringDate.substring(0, stringDate.indexOf("GMT")) + "UTC";
+        return stringDate;
       }
     },
     async created() {
