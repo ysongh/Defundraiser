@@ -3,14 +3,14 @@
     class="mb-2"
   >
     <v-card-text class="font-weight-bold">
-      <h2>{{ project.title}}</h2>
-      <p>{{ project.description}}</p>
+      <h2>{{ project.title }}</h2>
+      <p>{{ project.description }}</p>
     </v-card-text>
     <v-card-actions class="d-flex justify-space-between align-center">
       <v-btn
         color="orange"
         text
-        @click="goToProjectpage()"
+        @click="goToProjectpage(project.id)"
       >
         View
       </v-btn>  
@@ -26,8 +26,8 @@ export default {
     project: Object
   },
   methods: {
-    goToProjectpage() {
-      this.$router.push('/project');
+    goToProjectpage(id) {
+      this.$router.push('/project/' + id);
     }
   }
 }
