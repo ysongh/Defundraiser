@@ -1,0 +1,72 @@
+<template>
+  <v-container>
+    <v-card
+      class="mx-auto my-12 pt-3"
+      elevation="2"
+      max-width="600"
+    >
+      <v-card-text>
+        <h1>Create Project</h1>
+        <form class="mt-4">
+          <v-text-field
+            v-model="title"
+            label="Title"
+            outlined
+            dense
+            clearable
+          ></v-text-field>
+
+          <v-textarea
+            solo
+            class="mb-0"
+            rows="4"
+            label="Description"
+            v-model="description"
+          ></v-textarea>
+
+          <v-btn
+            class="mb-4"
+            @click="createQuestion()"
+          >
+            Create
+          </v-btn>
+        </form>
+      </v-card-text>
+    </v-card>
+  </v-container>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  name: "AddProject",
+  data: () => ({
+    title: "",
+    description: "",
+  }),
+  computed: mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
+  methods: {
+    async createQuestion() {
+      console.log(this.title, this.description)
+
+      await this.socialFundraiserBlockchain.methods
+        .createProject(this.title, this.description)
+        .send({ from: this.walletAddress })
+
+      this.$router.push('/')
+    }
+  }
+}
+</script>
+
+<style>
+  .flexRow {
+    display: flex !important;
+  }
+
+  .v-input--selection-controls {
+    margin-top: 5px;
+    margin-left: 7px;
+  }
+</style>
