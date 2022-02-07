@@ -1,35 +1,28 @@
 <template>
-  <v-app-bar
+    <v-app-bar
       app
       color="primary"
       dark
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-      
-      <v-btn class="btn-add" @click="connectToBlockchain()">
-        {{ formatWalletAddress(walletAddress) }}
-      </v-btn>
-      
+      <v-container class="d-flex justify-space-between align-center">
+        <router-link :to="{ path: '/'}">
+          <img
+            class="logo"
+            alt="Logo"
+            src="../../assets/logo.png"
+          >
+        </router-link>
+        
+        <v-spacer></v-spacer>
+        <div class="d-flex align-center">
+          <p class="mt-4 mr-4" v-if="walletAddress">
+            {{balance}} MATIC
+          </p>
+          <v-btn class="btn-add" @click="connect()">
+            {{ formatWalletAddress(walletAddress) }}
+          </v-btn>
+        </div>
+      </v-container>
     </v-app-bar>
 </template>
 
@@ -39,17 +32,23 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'Navbar',
   methods: {
-    ...mapActions(['connectToBlockchain']),
-    	formatWalletAddress(address) {
-        if(address) return address.substring(0,8) + "..." + address.substring(34,42);
-        else return "Open Wallet"
-      }
+    ...mapActions(['connectToBlockchain', 'getWalletBalance']),
+    async connect() {
+      await this.connectToBlockchain();
+      await this.getWalletBalance(this.walletAddress);
+    },
+    formatWalletAddress(address) {
+      if(address) return address.substring(0,8) + "..." + address.substring(34,42);
+      else return "Open Wallet"
+    }
   },
-  computed: mapGetters(['walletAddress']),
+  computed: mapGetters(['walletAddress', 'balance']),
 }
 
 </script>
 
 <style>
-
+  .logo {
+    width: 100px;
+  }
 </style>

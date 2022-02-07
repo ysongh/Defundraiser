@@ -1,9 +1,12 @@
 <template>
   <v-container>
-    <h1>Defundraiser</h1>
-    <router-link :to="{ path: '/add-project'}">
-      Add Project
-    </router-link>
+    <div class="d-flex justify-space-between align-center mb-4">
+      <h1>Supoort Projects</h1>
+      <router-link :to="{ path: '/add-project'}">
+          Add Project
+      </router-link>
+    </div>
+    
      
     <div v-bind:key="project.id" v-for="project of projects">
       <ProjectCard :project="project"/>

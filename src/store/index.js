@@ -10,17 +10,20 @@ export default new Vuex.Store({
   state: {
     walletAddress: '',
     socialFundraiserBlockchain: null,
-    projectCount: 0
+    projectCount: 0,
+    balance: 0
   },
   getters: {
     walletAddress: state => state.walletAddress,
     socialFundraiserBlockchain: state => state.socialFundraiserBlockchain,
     projectCount: state => state.projectCount,
+    balance: state => state.balance,
   },
   mutations: {
     setWalletAddress: (state, walletAddress) => (state.walletAddress = walletAddress),
     setSocialFundraiserBlockchain: (state, socialFundraiserBlockchain) => (state.socialFundraiserBlockchain = socialFundraiserBlockchain),
-    setProjectCount: (state, projectCount) => (state.projectCount = projectCount)
+    setProjectCount: (state, projectCount) => (state.projectCount = projectCount),
+    setBalance: (state, balance) => (state.balance = balance)
   },
   actions: {
     async connectToBlockchain({ commit }) {
@@ -55,6 +58,11 @@ export default new Vuex.Store({
       } else {
         window.alert('Contract is not deployed to detected network.')
       }
+    },
+    async getWalletBalance({ commit }, walletAddress) {
+      const balance = await window.web3.eth.getBalance(walletAddress);
+      console.log(balance, "bla")
+      commit('setBalance', balance / 10 ** 18);
     }
   },
   modules: {
