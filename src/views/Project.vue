@@ -166,9 +166,14 @@
       const project = await this.socialFundraiserBlockchain.methods.projects(this.$route.params.id).call()
       this.project = project
 
-      const donation = await this.socialFundraiserBlockchain.methods.donationNFTs(this.$route.params.id).call()
-      console.log(donation)
-      this.donations = [donation]
+      let donations = await this.socialFundraiserBlockchain.methods.getDonationNFTsByProject(this.$route.params.id).call()
+      let arr = []
+      for(let id of donations){
+        const res = await this.socialFundraiserBlockchain.methods.donationNFTs(id).call()
+        arr.push(res);
+      }
+
+      this.donations = arr
 
       fb.firestore()
         .collection(this.$route.params.id)
