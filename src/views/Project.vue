@@ -65,9 +65,22 @@
                   <td>{{ formatDate(nft.claimDate) }}</td>
                   <td>
                     <v-btn
+                      v-if="project.owner === walletAddress"
                       color="orange"
+                      small
+                      text
+                      @click="claimFund(nft.id)"
                     >
                       Claim
+                    </v-btn>
+                    <v-btn
+                      v-if="nft.donator === walletAddress"
+                      color="red"
+                      small
+                      text
+                       @click="revokeFund(nft.id)"
+                    >
+                      Revoke
                     </v-btn>
                   </td>
                 </tr>
@@ -142,6 +155,16 @@
         await this.socialFundraiserBlockchain.methods
           .donateToProject(this.$route.params.id, 1)
           .send({ from: this.walletAddress, value: (1 * 10 ** 18).toString() });
+      },
+      async claimFund(nftId) {
+        await this.socialFundraiserBlockchain.methods
+          .claimFundFromFunder(this.$route.params.id, nftId)
+          .send({ from: this.walletAddress });
+      },
+      async revokeFund(nftId) {
+        await this.socialFundraiserBlockchain.methods
+          .revokeFundFromProject(this.$route.params.id, nftId)
+          .send({ from: this.walletAddress });
       },
       addComment() {
         fb.firestore()
