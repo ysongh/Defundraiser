@@ -10,14 +10,19 @@
         <p>{{ project.description }}</p>
       </v-card-text>
       <v-card-actions class="d-flex justify-space-between align-center">
-        <v-btn
-          color="orange"
-          @click="donateFund()"
-        >
-          Donate
-        </v-btn>  
+        <div>
+          <v-btn
+            color="orange"
+            @click="donateFund()"
+          >
+            Donate 1 MATIC
+          </v-btn>
+          <p>Lock it for 1 week</p>
+        </div>
+        
         <p class="mt-3">{{ project.donationAmount / 10 ** 18}} MATIC Donated</p>
       </v-card-actions>
+      
     </v-card>
 
     <v-card>
