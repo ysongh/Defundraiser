@@ -1,19 +1,26 @@
 # Social Fundraiser
+A crowdfunding dapp for projects with funds being put in a time lock contract
 
-## Project setup
-```
-npm install
-```
+## Technologies
+- Vue 2
+- Vuex 3
+- Vuetify
+- Truffle
+- Web3.js
+- NFTPort API
 
-### Compiles and hot-reloads for development
+## Running the dapp on local host
+- Clone or download this repository
+- Run `npm i` to install the dependencies
+- Install and open up Ganache and click "Quickstart"
+- Create a file called '.env' on the root folder and add the following code
 ```
-npm run serve
+MNEMONIC=< Your mnemonic >
+ALCHEMYAPI_KEY = < Your Alchemy API key >
 ```
-
-### Compiles and minifies for production
+- Run `truffle migrate` to deploy the contract
+- Create a file called 'config.js' on the src folder and add the following code
 ```
-npm run build
+export const NFTPORT_APIKEY = "< Get API Key from NFT Port >";
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- Run `npm start` to start the dapp
