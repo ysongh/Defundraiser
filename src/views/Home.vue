@@ -2,9 +2,11 @@
   <v-container>
     <div class="d-flex justify-space-between align-center mb-4">
       <h1>Supoort Projects</h1>
-      <router-link :to="{ path: '/add-project'}">
-          Add Project
-      </router-link>
+      <v-btn
+        color="orange"
+        elevation="2"
+        @click="goToFormPage()"
+      >Add Project</v-btn>
     </div>
     
      
@@ -27,6 +29,11 @@
       ProjectCard
     },
     computed: mapGetters(['socialFundraiserBlockchain', 'projectCount']),
+    methods: {
+      goToFormPage() {
+        this.$router.push('/add-project');
+      }
+    },
     watch: {
       projectCount: async function () {
         let _projects = []
