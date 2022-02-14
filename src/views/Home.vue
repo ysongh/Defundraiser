@@ -6,9 +6,12 @@
         color="orange"
         elevation="2"
         @click="goToFormPage()"
-      >Add Project</v-btn>
+      >
+        <v-icon left>
+          mdi-pencil-plus
+        </v-icon>Add Project
+      </v-btn>
     </div>
-    
      
     <div v-bind:key="project.id" v-for="project of projects">
       <ProjectCard :project="project"/>

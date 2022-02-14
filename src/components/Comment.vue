@@ -13,7 +13,7 @@
         <v-list-item-avatar color="grey darken-3">
           <v-img
             class="elevation-6"
-            alt=""
+            alt="User"
             src="comment.text"
           ></v-img>
         </v-list-item-avatar>
