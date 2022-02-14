@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="d-flex justify-space-between align-center mb-4">
-      <h1>Supoort Projects</h1>
+      <h1>Support Projects</h1>
       <v-btn
         color="orange"
         elevation="2"
