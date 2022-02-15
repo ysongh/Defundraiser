@@ -13,11 +13,10 @@
         <div>
           <v-btn
             color="orange"
-            @click="donateFund()"
+            @click="goToFormPage()"
           >
-            Donate 1 MATIC
+            Donate
           </v-btn>
-          <p>Lock it for 1 week</p>
         </div>
         
         <p class="mt-3">{{ project.donationAmount / 10 ** 18}} MATIC Donated</p>
@@ -216,10 +215,8 @@
     },
     computed: mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
     methods: {
-      async donateFund() {
-        await this.socialFundraiserBlockchain.methods
-          .donateToProject(this.$route.params.id, 1)
-          .send({ from: this.walletAddress, value: (1 * 10 ** 18).toString() });
+      goToFormPage() {
+        this.$router.push(`/project/${this.$route.params.id}/donate`);
       },
       async claimFund(nftId) {
         await this.socialFundraiserBlockchain.methods
