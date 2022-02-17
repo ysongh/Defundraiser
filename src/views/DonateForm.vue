@@ -16,14 +16,9 @@
             clearable
           ></v-text-field>
 
-          <v-text-field
-            v-model="date"
-            label="Date"
-            outlined
-            dense
-            clearable
-          ></v-text-field>
-
+          <p>Select the date for project to claim the fund</p>
+          <v-date-picker v-model="picker" full-width></v-date-picker>
+          <br>
           <v-btn
             class="mb-4"
             @click="donateFund()"
@@ -43,15 +38,18 @@ export default {
   name: "DonateForm",
   data: () => ({
     amount: "",
-    date: "",
+    picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
   }),
   computed: mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
   methods: {
     async donateFund() {
-      await this.socialFundraiserBlockchain.methods
-        .donateToProject(this.$route.params.id, this.date)
-        .send({ from: this.walletAddress, value: (+this.amount * 10 ** 18).toString() })
+      const date = new Date(this.picker)
+      const seconds = date.getTime() / 1000
 
+      await this.socialFundraiserBlockchain.methods
+        .donateToProject(this.$route.params.id, seconds)
+        .send({ from: this.walletAddress, value: (+this.amount * 10 ** 18).toString() })
+        
       this.$router.push(`/project/${this.$route.params.id}`)
     }
   }
