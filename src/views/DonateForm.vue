@@ -43,13 +43,16 @@ export default {
   computed: mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
   methods: {
     async donateFund() {
-      const date = new Date(this.picker)
-      const seconds = date.getTime() / 1000
-
+      const claimDate = new Date(this.picker)
+      const claimDateSeconds = claimDate.getTime() / 1000
+      const currentDate = new Date(Date.now())
+      const currentDateSeconds = currentDate.getTime() / 1000
+      const newDateSeconds = Math.floor(+claimDateSeconds - +currentDateSeconds);
+      
       await this.socialFundraiserBlockchain.methods
-        .donateToProject(this.$route.params.id, seconds)
+        .donateToProject(this.$route.params.id, newDateSeconds.toString())
         .send({ from: this.walletAddress, value: (+this.amount * 10 ** 18).toString() })
-        
+
       this.$router.push(`/project/${this.$route.params.id}`)
     }
   }
