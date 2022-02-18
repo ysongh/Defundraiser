@@ -94,8 +94,7 @@
         </v-tab-item>
 
         <v-tab-item key="Announcements">
-          <h1>Announcements</h1>
-          <p>I made a new project</p>
+          <announcements></announcements>
         </v-tab-item>
 
         <v-tab-item key="Comments">
@@ -190,7 +189,7 @@
   export default {
     name: 'Project',
     components: {
-      Comment
+      Comment,
     },
     data: () => ({
       project: {},
