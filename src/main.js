@@ -3,10 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
-import announcements from './components/announcements.vue';
+
+import Donations from './components/project-sections/Donations.vue'
+import Announcements from './components/project-sections/Announcements.vue'
+import Mint from './components/project-sections/Mint.vue'
 
 Vue.config.productionTip = false
-Vue.component('announcements', announcements)
+Vue.component('Donations', Donations)
+Vue.component('Announcements', Announcements)
+Vue.component('Mint', Mint)
 
 new Vue({
   router,

@@ -7,7 +7,7 @@
 
 <script>
 export default {
-	name: 'announcements'
+	name: 'Announcements'
 }
 </script>
 
