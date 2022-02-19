@@ -48,21 +48,7 @@
         </v-tab-item>
 
         <v-tab-item key="Comments">
-          <h1>Comments</h1>
-          <v-textarea
-            solo
-            class="mb-0"
-            rows="4"
-            label="Add comment"
-            v-model="comment"
-          ></v-textarea>
-          <v-btn class="btn-add" @click="addComment()">
-            Add Comment
-          </v-btn>
-
-          <div v-bind:key="comment.id" v-for="comment of comments">
-            <Comment :comment="comment"/>
-          </div>
+          <Comments></Comments>
         </v-tab-item>
 
          <v-tab-item key="Mint">
@@ -75,11 +61,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import firebase from 'firebase'
-
-  import fb from '../config/firebase'
-  import Comment from '../components/Comment.vue'
-
+  
   export default {
     name: 'Project',
     components: {
@@ -87,8 +69,6 @@
     },
     data: () => ({
       project: {},
-      comments: [],
-      comment: "",
       tab: null,
       items: [
         { tab: 'Donations'},
@@ -97,9 +77,6 @@
         { tab: 'Mint' }
       ]
     }),
-    components: {
-      Comment
-    },
     computed: mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
     methods: {
       goToFormPage() {
@@ -111,36 +88,10 @@
         stringDate = stringDate.substring(0, stringDate.indexOf("GMT")) + "UTC";
         return stringDate;
       },
-      addComment() {
-        fb.firestore()
-          .collection(this.$route.params.id)
-          .add({
-            text: this.comment,
-            name: "Guest",
-            image: null,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          });
-
-        this.comment = "";
-      }
     },
     async created() {
       const project = await this.socialFundraiserBlockchain.methods.projects(this.$route.params.id).call()
       this.project = project
-
-      fb.firestore()
-        .collection(this.$route.params.id)
-        .orderBy('timestamp', 'desc')
-        .onSnapshot(snap => {
-          const commentData = snap.docs.map(doc => ({
-            id: doc.id,
-            name: doc.data().name,
-            text: doc.data().text,
-            data: doc.data()
-          }));
-          console.log(commentData);
-          this.comments = commentData;
-        });
     }
   }
 </script>
