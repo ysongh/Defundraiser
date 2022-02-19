@@ -16,6 +16,8 @@
     <div v-bind:key="project.id" v-for="project of projects">
       <ProjectCard :project="project"/>
     </div>
+
+    <h2 class="text-center mt-10 text-red" v-if="!walletAddress">Connect to your Wallet</h2>
   </v-container>
 </template>
 
@@ -31,7 +33,7 @@
     components: {
       ProjectCard
     },
-    computed: mapGetters(['socialFundraiserBlockchain', 'projectCount']),
+    computed: mapGetters(['socialFundraiserBlockchain', 'walletAddress', 'projectCount']),
     methods: {
       goToFormPage() {
         this.$router.push('/add-project');
@@ -62,3 +64,9 @@
     }
   }
 </script>
+
+<style>
+  .text-red {
+    color: red;
+  }
+</style>
