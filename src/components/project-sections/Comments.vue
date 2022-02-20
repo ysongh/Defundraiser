@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <h1>Comments</h1>
       <v-textarea
         solo
@@ -15,7 +15,7 @@
       <div v-bind:key="comment.id" v-for="comment of comments">
         <Comment :comment="comment"/>
       </div>
-  </div>
+  </v-container>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <h1>Donations</h1>
     <v-simple-table>
       <template v-slot:default>
@@ -51,7 +51,7 @@
         </tbody>
       </template>
     </v-simple-table>
-  </div>
+  </v-container>
 </template>
 
 <script>

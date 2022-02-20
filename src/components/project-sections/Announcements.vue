@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <v-container>
     <h1>Announcements</h1>
     <p>I made a new project</p>
-  </div>
+  </v-container>
 </template>
 
 <script>
