@@ -24,7 +24,7 @@
             v-for="nft in donations"
             :key="nft.id"
           >
-            <td>{{ nft.donator }}</td>
+            <td>{{ formatWalletAddress(nft.donator) }}</td>
             <td>{{ nft.amount / 10 ** 18 }} MATIC</td>
             <td>{{ formatDate(nft.claimDate) }}</td>
             <td>
@@ -79,6 +79,9 @@ export default {
       let stringDate = date.toUTCString();
       stringDate = stringDate.substring(0, stringDate.indexOf("GMT")) + "UTC";
       return stringDate;
+    },
+    formatWalletAddress(address) {
+      return address.substring(0,8) + "..." + address.substring(34,42);
     }
   },
   async created() {
