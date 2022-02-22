@@ -3,7 +3,7 @@
     <v-card
       class="mx-auto my-12 pt-3"
       elevation="2"
-      max-width="600"
+      max-width="450"
     >
       <v-card-text>
         <h1>Create Project</h1>
@@ -27,6 +27,8 @@
           <v-btn
             class="mb-4"
             @click="createQuestion()"
+            block
+            color="primary"
             :disabled=isDisabled
           >
             Create
