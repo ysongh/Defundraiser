@@ -27,6 +27,7 @@
           <v-btn
             class="mb-4"
             @click="createQuestion()"
+            :disabled=isDisabled
           >
             Create
           </v-btn>
@@ -45,7 +46,12 @@ export default {
     title: "",
     description: "",
   }),
-  computed: mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
+  computed: {
+    ...mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
+    isDisabled() {
+      return !this.title || !this.description;
+    },
+  },
   methods: {
     async createQuestion() {
       console.log(this.title, this.description)
