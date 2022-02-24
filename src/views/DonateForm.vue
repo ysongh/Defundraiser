@@ -1,26 +1,28 @@
 <template>
   <v-container>
     <v-card
-      class="mx-auto my-12 pt-3"
+      class="mx-auto my-8 pt-3"
       elevation="2"
-      max-width="600"
+      max-width="450"
     >
       <v-card-text>
         <h1>Donate to this project</h1>
         <form class="mt-4">
           <v-text-field
             v-model="amount"
-            label="Amount"
+            label="Amount (MATIC)"
             outlined
             dense
             clearable
           ></v-text-field>
 
           <p>Select the date for project to claim the fund</p>
-          <v-date-picker v-model="picker" full-width></v-date-picker>
+          <v-date-picker v-model="picker" full-width elevation="1"></v-date-picker>
           <br>
           <v-btn
             class="mb-4"
+            block
+            color="primary"
             @click="donateFund()"
           >
             Send
