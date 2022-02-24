@@ -17,6 +17,7 @@ contract SocialFundraiser is ERC721  {
     string description;
     uint listLenght;
     uint donationAmount;
+    uint fundAmount;
     uint[] donationIds;
     address payable owner;
   }
@@ -33,9 +34,6 @@ contract SocialFundraiser is ERC721  {
     uint id,
     string title,
     string description,
-    uint listLenght,
-    uint donationAmount,
-    uint[] donationIds,
     address payable owner
   );
 
@@ -49,8 +47,8 @@ contract SocialFundraiser is ERC721  {
   function createProject(string memory _title, string memory _description) public {
     projectCount++;
 
-    projects[projectCount] = Project(projectCount, _title, _description, 0, 0, new uint[](0), msg.sender);
-    emit ProjectCreated(projectCount, _title, _description, 0, 0, new uint[](0), msg.sender);
+    projects[projectCount] = Project(projectCount, _title, _description, 0, 0, 0, new uint[](0), msg.sender);
+    emit ProjectCreated(projectCount, _title, _description, msg.sender);
   }
 
   function donateToProject(uint _projectId, uint _duration) payable public  {
@@ -63,6 +61,7 @@ contract SocialFundraiser is ERC721  {
 
     Project storage _project = projects[_projectId];
     _project.donationAmount +=  msg.value;
+    _project.fundAmount +=  msg.value;
     _project.listLenght += 1;
     _project.donationIds.push(_tokenId);
 
@@ -75,7 +74,7 @@ contract SocialFundraiser is ERC721  {
     require(block.timestamp > _donationNFT.claimDate, "You need to wait to claim fund");
 
     msg.sender.transfer(_donationNFT.amount);
-    _project.donationAmount -= _donationNFT.amount;
+    _project.fundAmount -= _donationNFT.amount;
     _donationNFT.amount = 0;
   }
 
@@ -86,7 +85,7 @@ contract SocialFundraiser is ERC721  {
     DonationNFT storage _donationNFT = donationNFTs[_nftId];
 
     msg.sender.transfer(_donationNFT.amount);
-    _project.donationAmount -= _donationNFT.amount;
+    _project.fundAmount -= _donationNFT.amount;
     _donationNFT.amount = 0;
   }
 
