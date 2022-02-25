@@ -18,8 +18,11 @@
             Donate
           </v-btn>
         </div>
+        <div>
+          <p class="mt-3 mb-0">{{ project.donationAmount / 10 ** 18}} MATIC Donated</p>
+          <p>{{ project.fundAmount / 10 ** 18}} MATIC Left</p>
+        </div>
         
-        <p class="mt-3">{{ project.donationAmount / 10 ** 18}} MATIC Donated</p>
       </v-card-actions>
       
     </v-card>
