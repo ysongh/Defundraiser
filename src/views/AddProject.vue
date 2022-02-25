@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: "AddProject",
@@ -55,6 +55,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['connectToBlockchain']),
     async createQuestion() {
       console.log(this.title, this.description)
 
@@ -62,6 +63,7 @@ export default {
         .createProject(this.title, this.description)
         .send({ from: this.walletAddress })
 
+      this.connectToBlockchain();
       this.$router.push('/')
     }
   }
