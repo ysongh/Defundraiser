@@ -24,6 +24,7 @@
             block
             color="primary"
             @click="donateFund()"
+            :disabled=isDisabled
           >
             Send
           </v-btn>
@@ -42,7 +43,12 @@ export default {
     amount: "",
     picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
   }),
-  computed: mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
+  computed: {
+    ...mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
+    isDisabled() {
+      return !this.amount || +this.amount === 0
+    },
+  },
   methods: {
     async donateFund() {
       const claimDate = new Date(this.picker)
