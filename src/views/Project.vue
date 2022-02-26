@@ -30,6 +30,7 @@
     <v-card>
       <v-tabs
         v-model="tab"
+         fixed-tabs
         background-color="primary"
         dark
       >
