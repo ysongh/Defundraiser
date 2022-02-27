@@ -8,6 +8,7 @@
         label="Add comment"
         v-model="comment"
       ></v-textarea>
+
       <v-btn class="btn-add" @click="addComment()">
         Add Comment
       </v-btn>
@@ -66,5 +67,4 @@ export default {
 </script>
 
 <style>
-
 </style>

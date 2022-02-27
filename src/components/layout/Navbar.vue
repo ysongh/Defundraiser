@@ -39,7 +39,7 @@ export default {
     },
     formatWalletAddress(address) {
       if(address) return address.substring(0,8) + "..." + address.substring(34,42);
-      else return "Open Wallet"
+      else return "Connect Wallet"
     }
   },
   computed: mapGetters(['walletAddress', 'balance']),
