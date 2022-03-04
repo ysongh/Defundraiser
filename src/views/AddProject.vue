@@ -24,6 +24,14 @@
             v-model="description"
           ></v-textarea>
 
+          <v-file-input
+            label="Upload Image"
+            outlined
+            dense
+            prepend-icon="mdi-camera"
+            v-model="file"
+          ></v-file-input>
+
           <v-btn
             class="mb-4"
             @click="createQuestion()"
@@ -47,6 +55,7 @@ export default {
   data: () => ({
     title: "",
     description: "",
+    file: null,
   }),
   computed: {
     ...mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
