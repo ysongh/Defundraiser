@@ -34,7 +34,7 @@
 
           <v-btn
             class="mb-4"
-            @click="createQuestion()"
+            @click="createProject()"
             block
             color="primary"
             :disabled=isDisabled
@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     ...mapActions(['connectToBlockchain']),
-    async createQuestion() {
+    async createProject() {
       console.log(this.title, this.description)
 
       await this.socialFundraiserBlockchain.methods
