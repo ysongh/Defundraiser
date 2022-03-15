@@ -49,6 +49,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import fleekStorage from '@fleekhq/fleek-storage-js'
+
+import { FLEEK_APIKEY, FLEEK_APISECRET } from '../config/apikeys'
 
 export default {
   name: "AddProject",
@@ -66,7 +69,16 @@ export default {
   methods: {
     ...mapActions(['connectToBlockchain']),
     async createProject() {
-      console.log(this.title, this.description)
+      console.log(this.title, this.description, this.file)
+
+      const uploadedFile = await fleekStorage.upload({
+        apiKey: FLEEK_APIKEY,
+        apiSecret: FLEEK_APISECRET,
+        key: this.file.name,
+        data: this.file
+      });
+
+      console.log(uploadedFile);
 
       await this.socialFundraiserBlockchain.methods
         .createProject(this.title, this.description)
