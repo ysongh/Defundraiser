@@ -81,7 +81,7 @@ export default {
       console.log(uploadedFile);
 
       await this.socialFundraiserBlockchain.methods
-        .createProject(this.title, this.description)
+        .createProject(this.title, this.description, uploadedFile.hash)
         .send({ from: this.walletAddress })
 
       this.connectToBlockchain();

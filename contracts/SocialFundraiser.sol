@@ -15,6 +15,7 @@ contract SocialFundraiser is ERC721  {
     uint id;
     string title;
     string description;
+    string projectImage;
     uint listLenght;
     uint donationAmount;
     uint fundAmount;
@@ -34,6 +35,7 @@ contract SocialFundraiser is ERC721  {
     uint id,
     string title,
     string description,
+    string projectImage,
     address payable owner
   );
 
@@ -44,11 +46,11 @@ contract SocialFundraiser is ERC721  {
     address payable donator
   );
 
-  function createProject(string memory _title, string memory _description) public {
+  function createProject(string memory _title, string memory _description, string memory _projectImage) public {
     projectCount++;
 
-    projects[projectCount] = Project(projectCount, _title, _description, 0, 0, 0, new uint[](0), msg.sender);
-    emit ProjectCreated(projectCount, _title, _description, msg.sender);
+    projects[projectCount] = Project(projectCount, _title, _description, _projectImage, 0, 0, 0, new uint[](0), msg.sender);
+    emit ProjectCreated(projectCount, _title, _description, _projectImage, msg.sender);
   }
 
   function donateToProject(uint _projectId, uint _duration) payable public  {
