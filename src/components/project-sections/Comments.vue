@@ -21,9 +21,12 @@
 
 <script>
 import firebase from 'firebase'
+import axios from "axios"
 
+import { PINATA_APIKEY, PINATA_SECRET_APIKEY } from '../../config/apikeys'
 import fb from '../../config/firebase'
 import Comment from '../Comment.vue'
+
 
 export default {
   name: 'Comments',
@@ -35,17 +38,35 @@ export default {
     Comment
   },
   methods: {
-    addComment() {
-      fb.firestore()
-        .collection(this.$route.params.id)
-        .add({
-          text: this.comment,
-          name: "Guest",
-          image: null,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        });
+    async addComment() {
+      // fb.firestore()
+      //   .collection(this.$route.params.id)
+      //   .add({
+      //     text: this.comment,
+      //     name: "Guest",
+      //     image: null,
+      //     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      //   });
 
-      this.comment = "";
+      // this.comment = "";
+
+      // Create Json file
+      const fileData = JSON.stringify({text: this.comment});
+      const blob = new Blob([fileData], {type: "text/plain"});
+
+      let data = new FormData();
+      data.append('file', blob);
+
+      const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", data, {
+        maxContentLength: "Infinity",
+        headers: {
+          pinata_api_key: PINATA_APIKEY, 
+          pinata_secret_api_key: PINATA_SECRET_APIKEY,
+        },
+
+      })
+
+      console.log(res);
     }
   },
   async created() {

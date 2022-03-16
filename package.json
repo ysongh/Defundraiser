@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@fleekhq/fleek-storage-js": "^1.0.21",
+    "axios": "^0.26.1",
     "core-js": "^3.6.5",
     "firebase": "^8.4.1",
     "nft.storage": "^6.0.2",
