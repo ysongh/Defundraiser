@@ -2,31 +2,35 @@
   <v-container>
     <h1>Project</h1>
 
-    <v-card
-      class="mb-2"
-    >
-      <v-card-text class="font-weight-bold">
-        <h2>{{ project.title }}</h2>
-        <p>{{ project.description }}</p>
-      </v-card-text>
-      <v-card-actions class="d-flex justify-space-between align-center">
-        <div>
-          <v-btn
-            color="orange"
-            @click="goToFormPage()"
-          >
-            Donate
-          </v-btn>
-        </div>
-        <div>
-          <p class="mt-3 mb-0">{{ project.donationAmount / 10 ** 18}} MATIC Donated</p>
-          <p>{{ project.fundAmount / 10 ** 18}} MATIC Left</p>
-        </div>
-        
-      </v-card-actions>
-      
-    </v-card>
-
+    <v-row :align="align">
+      <v-col>
+        <v-card class="mb-2">
+          <v-card-text class="font-weight-bold">
+            <h2>{{ project.title }}</h2>
+            <p>{{ project.description }}</p>
+          </v-card-text>
+          <v-card-actions class="d-flex justify-space-between align-center">
+            <div>
+              <v-btn
+                color="orange"
+                @click="goToFormPage()"
+              >
+                Donate
+              </v-btn>
+            </div>
+            <div>
+              <p class="mt-3 mb-0">{{ project.donationAmount / 10 ** 18}} MATIC Donated</p>
+              <p>{{ project.fundAmount / 10 ** 18}} MATIC Left</p>
+            </div>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+        <v-col
+      >
+        <img :src="'https://ipfs.io/ipfs/' + project.projectImage" alt="Project Image" class="project-image">
+      </v-col>
+    </v-row>
+    
     <v-card>
       <v-tabs
         v-model="tab"
@@ -103,5 +107,9 @@
 .btn-add {
   margin-top: -1.5rem !important;
   margin-bottom: 2rem;
+}
+.project-image {
+  width: 100%;
+  height: 300px;
 }
 </style>
