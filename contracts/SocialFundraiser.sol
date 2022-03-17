@@ -93,6 +93,11 @@ contract SocialFundraiser is ERC721  {
     _donationNFT.amount = 0;
   }
 
+  function addCommentForProject(uint _projectId, string memory _cid) external {
+    Project storage _project = projects[_projectId];
+    _project.commentCids.push(_cid);
+  }
+
   function getDonationNFTsByProject(uint _projectId) public view returns (uint [] memory){
     Project storage _project = projects[_projectId];
     return _project.donationIds;
