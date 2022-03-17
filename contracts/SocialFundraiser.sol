@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.12;
+pragma experimental ABIEncoderV2;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
@@ -20,6 +21,7 @@ contract SocialFundraiser is ERC721  {
     uint donationAmount;
     uint fundAmount;
     uint[] donationIds;
+    string[] commentCids;
     address payable owner;
   }
   
@@ -49,7 +51,7 @@ contract SocialFundraiser is ERC721  {
   function createProject(string memory _title, string memory _description, string memory _projectImage) public {
     projectCount++;
 
-    projects[projectCount] = Project(projectCount, _title, _description, _projectImage, 0, 0, 0, new uint[](0), msg.sender);
+    projects[projectCount] = Project(projectCount, _title, _description, _projectImage, 0, 0, 0, new uint[](0), new string[](0), msg.sender);
     emit ProjectCreated(projectCount, _title, _description, _projectImage, msg.sender);
   }
 
@@ -94,5 +96,10 @@ contract SocialFundraiser is ERC721  {
   function getDonationNFTsByProject(uint _projectId) public view returns (uint [] memory){
     Project storage _project = projects[_projectId];
     return _project.donationIds;
+  }
+
+  function getCommentsByProject(uint _projectId) public view returns (string [] memory){
+    Project storage _project = projects[_projectId];
+    return _project.commentCids;
   }
 }
