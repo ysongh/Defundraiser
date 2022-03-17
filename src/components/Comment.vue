@@ -37,9 +37,22 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   props: {
-    comment: Object
+    commentCid: String
+  },
+  data: () => ({
+    comment: {}
+  }),
+  async created() {
+    console.log(this.commentCid)
+
+    const res = await axios.get("https://gateway.pinata.cloud/ipfs/" + this.commentCid);
+    console.log(res);
+    this.comment = res.data;
+     console.log(this.comment);
   }
 }
 </script>

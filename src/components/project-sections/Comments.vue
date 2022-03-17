@@ -13,8 +13,8 @@
         Add Comment
       </v-btn>
 
-      <div v-bind:key="comment.id" v-for="comment of comments">
-        <Comment :comment="comment"/>
+      <div v-bind:key="comment" v-for="comment of comments">
+        <Comment :commentCid="comment"/>
       </div>
   </v-container>
 </template>
@@ -22,11 +22,11 @@
 <script>
 import firebase from 'firebase'
 import axios from "axios"
+import { mapGetters } from 'vuex'
 
 import { PINATA_APIKEY, PINATA_SECRET_APIKEY } from '../../config/apikeys'
 import fb from '../../config/firebase'
 import Comment from '../Comment.vue'
-
 
 export default {
   name: 'Comments',
@@ -36,6 +36,12 @@ export default {
   }),
   components: {
     Comment
+  },
+  computed: {
+    ...mapGetters(['walletAddress', 'socialFundraiserBlockchain']),
+    isDisabled() {
+      return !this.title || !this.description;
+    },
   },
   methods: {
     async addComment() {
@@ -63,27 +69,32 @@ export default {
           pinata_api_key: PINATA_APIKEY, 
           pinata_secret_api_key: PINATA_SECRET_APIKEY,
         },
-
       })
 
       console.log(res);
+
+      await this.socialFundraiserBlockchain.methods
+        .addCommentForProject(this.$route.params.id, res.data.IpfsHash)
+        .send({ from: this.walletAddress })
     }
   },
   async created() {
-    fb.firestore()
-      .collection(this.$route.params.id)
-      .orderBy('timestamp', 'desc')
-      .onSnapshot(snap => {
-        const commentData = snap.docs.map(doc => ({
-          id: doc.id,
-          name: doc.data().name,
-          text: doc.data().text,
-          data: doc.data()
-        }));
-        console.log(commentData);
-        this.comments = commentData;
-      });
-    }
+    // fb.firestore()
+    //   .collection(this.$route.params.id)
+    //   .orderBy('timestamp', 'desc')
+    //   .onSnapshot(snap => {
+    //     const commentData = snap.docs.map(doc => ({
+    //       id: doc.id,
+    //       name: doc.data().name,
+    //       text: doc.data().text,
+    //       data: doc.data()
+    //     }));
+    //     console.log(commentData);
+    //     this.comments = commentData;
+    //   });
+    const newComments = await this.socialFundraiserBlockchain.methods.getCommentsByProject(this.$route.params.id).call()
+    this.comments = newComments;
+  }
 }
 </script>
 
