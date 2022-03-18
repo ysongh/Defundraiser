@@ -9,7 +9,7 @@
         v-model="comment"
       ></v-textarea>
 
-      <v-btn class="btn-add" @click="addComment()">
+      <v-btn class="btn-add mb-6" color="orange" @click="addComment()">
         Add Comment
       </v-btn>
 
@@ -57,7 +57,11 @@ export default {
       // this.comment = "";
 
       // Create Json file
-      const fileData = JSON.stringify({text: this.comment});
+      const fileData = JSON.stringify({
+        text: this.comment,
+        name: "Guest",
+        timestamp: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+      });
       const blob = new Blob([fileData], {type: "text/plain"});
 
       let data = new FormData();
