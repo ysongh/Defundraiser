@@ -9,9 +9,16 @@
         v-model="comment"
       ></v-textarea>
 
-      <v-btn class="btn-add mb-6" color="orange" @click="addComment()">
+      <v-btn  v-if="!loading" class="btn-add mb-6" color="orange" @click="addComment()">
         Add Comment
       </v-btn>
+
+      <div class="text-center mb-3" v-else>
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </div>
 
       <div v-bind:key="comment" v-for="comment of comments">
         <Comment :commentCid="comment"/>
@@ -31,6 +38,7 @@ import Comment from '../Comment.vue'
 export default {
   name: 'Comments',
   data: () => ({
+    loading: false,
     comments: [],
     comment: "",
   }),
@@ -57,29 +65,40 @@ export default {
       // this.comment = "";
 
       // Create Json file
-      const fileData = JSON.stringify({
-        text: this.comment,
-        name: "Guest",
-        timestamp: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
-      });
-      const blob = new Blob([fileData], {type: "text/plain"});
 
-      let data = new FormData();
-      data.append('file', blob);
 
-      const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", data, {
-        maxContentLength: "Infinity",
-        headers: {
-          pinata_api_key: PINATA_APIKEY, 
-          pinata_secret_api_key: PINATA_SECRET_APIKEY,
-        },
-      })
+      try {
+        this.loading = true
 
-      console.log(res);
+        const fileData = JSON.stringify({
+          text: this.comment,
+          name: "Guest",
+          timestamp: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+        });
+        const blob = new Blob([fileData], {type: "text/plain"});
 
-      await this.socialFundraiserBlockchain.methods
-        .addCommentForProject(this.$route.params.id, res.data.IpfsHash)
-        .send({ from: this.walletAddress })
+        let data = new FormData();
+        data.append('file', blob);
+
+        const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", data, {
+          maxContentLength: "Infinity",
+          headers: {
+            pinata_api_key: PINATA_APIKEY, 
+            pinata_secret_api_key: PINATA_SECRET_APIKEY,
+          },
+        })
+
+        console.log(res);
+
+        await this.socialFundraiserBlockchain.methods
+          .addCommentForProject(this.$route.params.id, res.data.IpfsHash)
+          .send({ from: this.walletAddress })
+
+        this.loading = false
+      } catch(error) {
+        console.log(error);
+        this.loading = false
+      }
     }
   },
   async created() {

@@ -20,6 +20,7 @@
           <v-date-picker v-model="picker" full-width elevation="1"></v-date-picker>
           <br>
           <v-btn
+            v-if="!loading"
             class="mb-4"
             block
             color="primary"
@@ -28,6 +29,12 @@
           >
             Send
           </v-btn>
+          <div class="text-center" v-else>
+            <v-progress-circular
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
+          </div>
         </form>
       </v-card-text>
     </v-card>
@@ -40,6 +47,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: "DonateForm",
   data: () => ({
+    loading: false,
     amount: "",
     picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
   }),
@@ -51,17 +59,24 @@ export default {
   },
   methods: {
     async donateFund() {
-      const claimDate = new Date(this.picker)
-      const claimDateSeconds = claimDate.getTime() / 1000
-      const currentDate = new Date(Date.now())
-      const currentDateSeconds = currentDate.getTime() / 1000
-      const newDateSeconds = Math.floor(+claimDateSeconds - +currentDateSeconds);
-      
-      await this.socialFundraiserBlockchain.methods
-        .donateToProject(this.$route.params.id, newDateSeconds.toString())
-        .send({ from: this.walletAddress, value: (+this.amount * 10 ** 18).toString() })
+      try{
+        this.loading = true
+        const claimDate = new Date(this.picker)
+        const claimDateSeconds = claimDate.getTime() / 1000
+        const currentDate = new Date(Date.now())
+        const currentDateSeconds = currentDate.getTime() / 1000
+        const newDateSeconds = Math.floor(+claimDateSeconds - +currentDateSeconds);
+        
+        await this.socialFundraiserBlockchain.methods
+          .donateToProject(this.$route.params.id, newDateSeconds.toString())
+          .send({ from: this.walletAddress, value: (+this.amount * 10 ** 18).toString() })
 
-      this.$router.push(`/project/${this.$route.params.id}`)
+        this.loading = false
+        this.$router.push(`/project/${this.$route.params.id}`)
+      } catch(error) {
+        console.log(error);
+        this.loading = false
+      }
     }
   }
 }

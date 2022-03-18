@@ -33,6 +33,7 @@
           ></v-file-input>
 
           <v-btn
+            v-if="!loading"
             class="mb-4"
             @click="createProject()"
             block
@@ -41,6 +42,13 @@
           >
             Create
           </v-btn>
+
+          <div class="text-center" v-else>
+            <v-progress-circular
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
+          </div>
         </form>
       </v-card-text>
     </v-card>
@@ -56,6 +64,7 @@ import { FLEEK_APIKEY, FLEEK_APISECRET } from '../config/apikeys'
 export default {
   name: "AddProject",
   data: () => ({
+    loading: false,
     title: "",
     description: "",
     file: null,
@@ -69,23 +78,30 @@ export default {
   methods: {
     ...mapActions(['connectToBlockchain']),
     async createProject() {
-      console.log(this.title, this.description, this.file)
+      try{
+        this.loading = true
+        console.log(this.title, this.description, this.file)
 
-      const uploadedFile = await fleekStorage.upload({
-        apiKey: FLEEK_APIKEY,
-        apiSecret: FLEEK_APISECRET,
-        key: this.file.name,
-        data: this.file
-      });
+        const uploadedFile = await fleekStorage.upload({
+          apiKey: FLEEK_APIKEY,
+          apiSecret: FLEEK_APISECRET,
+          key: this.file.name,
+          data: this.file
+        });
 
-      console.log(uploadedFile);
+        console.log(uploadedFile);
 
-      await this.socialFundraiserBlockchain.methods
-        .createProject(this.title, this.description, uploadedFile.hash)
-        .send({ from: this.walletAddress })
+        await this.socialFundraiserBlockchain.methods
+          .createProject(this.title, this.description, uploadedFile.hash)
+          .send({ from: this.walletAddress })
 
-      this.connectToBlockchain();
-      this.$router.push('/')
+        this.connectToBlockchain()
+        this.loading = false
+        this.$router.push('/')
+      } catch(error) {
+        console.log(error);
+        this.loading = false
+      }
     }
   }
 }
