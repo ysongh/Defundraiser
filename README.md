@@ -14,6 +14,10 @@ A crowdfunding dapp for projects with funds being put in a time lock contract
 - Pinata
 - NFTPort API
 
+## Links to example use of IPFS
+- (Fleek) <https://github.com/ysongh/Social-Fundraiser/blob/faber-web3-hackathon/src/views/AddProject.vue#L85>
+- (Pinata) <https://github.com/ysongh/Social-Fundraiser/blob/faber-web3-hackathon/src/components/project-sections/Comments.vue#L83>
+
 ## Running the dapp on local host
 - Clone or download this repository
 - Run `npm i` to install the dependencies
