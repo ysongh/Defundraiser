@@ -51,6 +51,9 @@
         </tbody>
       </template>
     </v-simple-table>
+    <p v-if="!donations.length" class="mt-8">
+      No Donation Yet
+    </p>
   </v-container>
 </template>
 
