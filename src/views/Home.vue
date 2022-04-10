@@ -17,7 +17,9 @@
       <ProjectCard :project="project"/>
     </div>
 
-    <h2 class="text-center mt-10 text-red" v-if="!walletAddress">Connect to your Wallet</h2>
+    <h2 class="text-center mt-10 text-red" v-if="!walletAddress">
+      Connect to your Wallet on Polygon Testnet
+    </h2>
   </v-container>
 </template>
 
