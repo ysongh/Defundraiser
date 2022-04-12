@@ -94,6 +94,9 @@ export default {
           .addCommentForProject(this.$route.params.id, res.data.IpfsHash)
           .send({ from: this.walletAddress })
 
+        const newComments = await this.socialFundraiserBlockchain.methods.getCommentsByProject(this.$route.params.id).call()
+        this.comments = newComments;
+
         this.loading = false
       } catch(error) {
         console.log(error);
