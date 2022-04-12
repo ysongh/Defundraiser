@@ -2,7 +2,7 @@
   <v-container>
     <h1>Project</h1>
 
-    <v-row :align="align">
+    <v-row>
       <v-col>
         <v-card class="mb-2">
           <v-card-text class="font-weight-bold">
