@@ -1,6 +1,14 @@
 <template>
   <v-container>
     <h1>Comments</h1>
+      <v-text-field
+        v-model="name"
+        label="Name"
+        outlined
+        dense
+        clearable
+      ></v-text-field>
+
       <v-textarea
         solo
         class="mb-0"
@@ -40,6 +48,7 @@ export default {
   data: () => ({
     loading: false,
     comments: [],
+    name: "",
     comment: "",
   }),
   components: {
@@ -72,7 +81,7 @@ export default {
 
         const fileData = JSON.stringify({
           text: this.comment,
-          name: "Guest",
+          name: this.name || "Guest",
           timestamp: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
         });
         const blob = new Blob([fileData], {type: "text/plain"});
