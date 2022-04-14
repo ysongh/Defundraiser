@@ -1,8 +1,6 @@
 <template>
   <v-card
     class="mb-1"
-    color="#26c6da"
-    dark
   >
     <v-card-text class="font-weight-bold">
       {{ comment.text}}
@@ -26,10 +24,6 @@
           align="center"
           justify="end"
         >
-          <v-icon class="mr-1">
-            mdi-heart
-          </v-icon>
-          <span class="subheading mr-2">0</span>
         </v-row>
       </v-list-item>
     </v-card-actions>
