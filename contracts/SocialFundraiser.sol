@@ -48,7 +48,11 @@ contract SocialFundraiser is ERC721  {
     address payable donator
   );
 
-  function createProject(string memory _title, string memory _description, string memory _projectImage) public {
+  function createProject(
+    string memory _title,
+    string memory _description,
+    string memory _projectImage
+  ) public {
     projectCount++;
 
     projects[projectCount] = Project(projectCount, _title, _description, _projectImage, 0, 0, 0, new uint[](0), new string[](0), msg.sender);
