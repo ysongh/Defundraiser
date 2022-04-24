@@ -16,6 +16,9 @@
         <router-link :to="{ path: '/'}" class="nav-link">
           Home
         </router-link>
+        <router-link :to="{ path: '/my-nft'}" class="nav-link">
+          My Donation NFT
+        </router-link>
         
         <v-spacer></v-spacer>
         <div class="d-flex align-center">

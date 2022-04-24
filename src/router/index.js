@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Project from '../views/Project.vue'
 import AddProject from '../views/AddProject.vue'
 import DonateForm from '../views/DonateForm.vue'
+import MyDonationNFT from '../views/MyDonationNFT.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/add-project',
     name: 'AddProject',
     component: AddProject
+  },
+  {
+    path: '/my-nft',
+    name: 'MyDonationNFT',
+    component: MyDonationNFT
   }
 ]
 
