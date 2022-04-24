@@ -1,13 +1,29 @@
 <template>
   <v-container>
     <h1>My Donation NFT</h1>
-
-    <div v-bind:key="nft.id" v-for="nft of nfts">
-      <h2>{{nft.id}}</h2>
-      <p>{{nft.claimDate}}</p>
-      <p>{{nft.projectId}}</p>
-      <p>{{nft.amount}}</p>
-    </div>
+    <v-row>
+      <v-col
+        v-bind:key="nft.id"
+        v-for="nft of nfts"
+        sm="4"
+      >
+        <v-card class="mb-2">
+          <v-card-text class="font-weight-bold">
+            <h2>{{ nft.id }}</h2>
+            <p class="mt-3">{{ nft.amount / 10 ** 18}} MATIC Donated</p>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              color="orange"
+              text
+              @click="goToProjectpage(nft.projectId)"
+            >
+              View Project
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -20,7 +36,12 @@ export default {
     loading: false,
     nfts: [],
   }),
-  computed: mapGetters(['socialFundraiserBlockchain', 'walletAddress', 'projectCount']),
+  computed: mapGetters(['socialFundraiserBlockchain', 'walletAddress']),
+  methods: {
+    goToProjectpage(id) {
+      this.$router.push('/project/' + id);
+    }
+  },
   async created() {
     let _nfts = []
     const totalSupply = await this.socialFundraiserBlockchain.methods.totalSupply().call()
